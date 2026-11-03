@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Patterns et Architectures Logicielles</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --code-bg: #f8f9fa;
+            --border-color: #ddd;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--secondary-color);
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            font-weight: 600;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            font-size: 2em;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+        
+        h3 {
+            font-size: 1.5em;
+            color: var(--primary-color);
+        }
+        
+        h4 {
+            font-size: 1.2em;
+        }
+        
+        p {
+            margin-bottom: 1em;
+            text-align: justify;
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--code-bg);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin: 20px 0;
+        }
+        
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+            margin-left: 0;
+            color: var(--dark-color);
+            font-style: italic;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--light-color);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            color: var(--dark-color);
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+        
+        .note {
+            background-color: #d1ecf1;
+            border-left: 5px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 5px solid #856404;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .tip {
+            background-color: #d4edda;
+            border-left: 5px solid #155724;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .code-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 8px 15px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            margin-bottom: -20px;
+            display: block;
+        }
+        
+        .page-break {
+            page-break-after: always;
+        }
+        
+        .cover {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .cover h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            border: none;
+        }
+        
+        .cover h2 {
+            font-size: 1.8em;
+            color: var(--dark-color);
+            margin-bottom: 50px;
+            border: none;
+            font-weight: normal;
+        }
+        
+        .cover .date {
+            margin-top: 50px;
+            font-style: italic;
+            color: var(--dark-color);
+        }
+        
+        .toc {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 5px;
+            margin: 30px 0;
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            border: none;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 5px;
+        }
+        
+        .toc a {
+            text-decoration: none;
+            color: var(--secondary-color);
+        }
+        
+        .toc a:hover {
+            color: var(--primary-color);
+        }
+        
+        .toc .level-2 {
+            padding-left: 20px;
+        }
+        
+        .toc .level-3 {
+            padding-left: 40px;
+        }
+        
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: var(--dark-color);
+            font-size: 0.9em;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+        
+        @media print {
+            body {
+                font-size: 12pt;
+            }
+            
+            pre, code {
+                font-size: 10pt;
+            }
+            
+            h1, h2, h3, h4, h5, h6 {
+                page-break-after: avoid;
+                page-break-inside: avoid;
+            }
+            
+            img {
+                page-break-inside: avoid;
+                max-width: 100% !important;
+            }
+            
+            pre, blockquote {
+                page-break-inside: avoid;
+            }
+            
+            .page-break {
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cover">
+        <h1>Design Patterns et Architectures Logicielles</h1>
+        <h2>Application de gestion de contacts</h2>
+        <div class="introduction">
+            <p>Ce projet pédagogique a pour objectif de présenter les concepts fondamentaux des design patterns et des architectures logicielles, ainsi que leur mise en œuvre concrète à travers une application web développée avec Python, Flask et SQLite.</p>
+            <p>À travers une approche à la fois théorique et pratique, ce travail vise à illustrer l’importance des bonnes pratiques de conception pour améliorer la lisibilité, la modularité et la maintenabilité du code, en particulier grâce au modèle MVC (Model-View-Controller).</p>
+        </div>
+        <div class="members">
+            <h3>Membres du groupe :</h3>
+            <ul>
+                <li>MOUHEB MASSYL</li>
+                <li>SADI MOHAND</li>
+                <li>CHEMLOUL SYFAX</li>
+            </ul>
+        </div>
+        <p class="date">21 Mai 2025</p>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <div class="toc">
+        <h2>Table des matières</h2>
+        <ul>
+            <li><a href="#introduction">1. Introduction</a></li>
+            <li><a href="#fondements">2. Fondements théoriques</a>
+                <ul class="level-2">
+                    <li><a href="#design-patterns">2.1 Définition des design patterns</a></li>
+                    <li><a href="#architectures">2.2 Définition des architectures logicielles</a></li>
+                    <li><a href="#differences">2.3 Différence entre design pattern et architecture</a></li>
+                    <li><a href="#interet">2.4 Intérêt dans la conception logicielle moderne</a></li>
+                </ul>
+            </li>
+            <li><a href="#presentation">3. Présentation du projet de gestion de contacts</a>
+                <ul class="level-2">
+                    <li><a href="#objectifs">3.1 Objectifs pédagogiques</a></li>
+                    <li><a href="#fonctionnalites">3.2 Fonctionnalités implémentées</a></li>
+                    <li><a href="#technologies">3.3 Technologies utilisées</a></li>
+                </ul>
+            </li>
+            <li><a href="#non-mvc">4. Version non structurée (non-MVC)</a>
+                <ul class="level-2">
+                    <li><a href="#approche-monolithique">4.1 Présentation de l'approche monolithique</a></li>
+                    <li><a href="#analyse-non-mvc">4.2 Analyse du code source</a></li>
+                    <li><a href="#avantages-inconvenients-non-mvc">4.3 Avantages et inconvénients</a></li>
+                    <li><a href="#problemes">4.4 Problèmes de maintenabilité et d'évolutivité</a></li>
+                </ul>
+            </li>
+            <li><a href="#mvc">5. Version structurée (MVC)</a>
+                <ul class="level-2">
+                    <li><a href="#presentation-mvc">5.1 Présentation de l'architecture MVC</a></li>
+                    <li><a href="#structure">5.2 Structure du projet</a></li>
+                    <li><a href="#composants">5.3 Analyse détaillée de chaque composant</a></li>
+                    <li><a href="#avantages-mvc">5.4 Avantages et bénéfices de cette approche</a></li>
+                </ul>
+            </li>
+            <li><a href="#comparaison">6. Comparaison des deux approches</a>
+                <ul class="level-2">
+                    <li><a href="#tableau">6.1 Tableau comparatif</a></li>
+                    <li><a href="#differences-implementation">6.2 Analyse des différences d'implémentation</a></li>
+                    <li><a href="#impact">6.3 Impact sur la maintenabilité et l'évolutivité</a></li>
+                </ul>
+            </li>
+            <li><a href="#guide">7. Guide d'installation et d'utilisation</a>
+                <ul class="level-2">
+                    <li><a href="#prerequis">7.1 Prérequis</a></li>
+                    <li><a href="#installation">7.2 Installation</a></li>
+                    <li><a href="#execution">7.3 Exécution</a></li>
+                    <li><a href="#utilisation">7.4 Utilisation des fonctionnalités</a></li>
+                </ul>
+            </li>
+            <li><a href="#code">8. Code source complet</a>
+                <ul class="level-2">
+                    <li><a href="#code-non-mvc">8.1 Version non-MVC</a></li>
+                    <li><a href="#code-mvc">8.2 Version MVC</a></li>
+                </ul>
+            </li>
+            <li><a href="#conclusion">9. Conclusion</a>
+                <ul class="level-2">
+                    <li><a href="#synthese">9.1 Synthèse des apprentissages</a></li>
+                    <li><a href="#bonnes-pratiques">9.2 Bonnes pratiques à retenir</a></li>
+                    <li><a href="#perspectives">9.3 Perspectives d'évolution</a></li>
+                </ul>
+            </li>
+            <li><a href="#annexes">10. Annexes</a>
+                <ul class="level-2">
+                    <li><a href="#ressources">10.1 Ressources complémentaires</a></li>
+                    <li><a href="#glossaire">10.2 Glossaire</a></li>
+                    <li><a href="#references">10.3 Références bibliographiques</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <h1 id="introduction">1. Introduction</h1>
+    
+    <p>La conception logicielle est un art qui nécessite à la fois créativité et rigueur. Dans un monde où les applications deviennent de plus en plus complexes, la capacité à structurer efficacement le code est devenue une compétence essentielle pour tout développeur.</p>
+    
+    <p>Ce document explore les design patterns et les architectures logicielles, deux piliers fondamentaux pour concevoir des applications robustes, maintenables et évolutives. Pour illustrer ces concepts théoriques, nous avons développé une application pratique de gestion de contacts en utilisant Python, Flask et SQLite.</p>
+    
+    <p>L'objectif pédagogique est de démontrer l'impact concret des choix architecturaux sur la qualité du code, en comparant deux implémentations de la même application :</p>
+    <ul>
+        <li>Une version non structurée (monolithique)</li>
+        <li>Une version structurée selon le pattern MVC (Model-View-Controller)</li>
+    </ul>
+    
+    <p>À travers cette comparaison, nous mettrons en évidence les avantages et inconvénients de chaque approche, ainsi que les bonnes pratiques à adopter pour développer des applications de qualité professionnelle.</p>
+    
+    <h1 id="fondements">2. Fondements théoriques</h1>
+    
+    <h2 id="design-patterns">2.1 Définition des design patterns</h2>
+    
+    <p>Un design pattern (patron de conception) est une solution générale et réutilisable à un problème courant dans un contexte donné de la conception logicielle. Il ne s'agit pas d'un morceau de code spécifique, mais plutôt d'un modèle ou d'une description expliquant comment structurer des classes ou des objets pour résoudre un problème particulier.</p>
+    
+    <p>Les design patterns ont été popularisés par le livre "Design Patterns: Elements of Reusable Object-Oriented Software" (1994), écrit par Erich Gamma, Richard Helm, Ralph Johnson et John Vlissides, collectivement connus sous le nom de "Gang of Four" (GoF).</p>
+    
+    <p>Un design pattern est généralement décrit par :</p>
+    <ul>
+        <li>Un nom unique et évocateur</li>
+        <li>Le problème qu'il vise à résoudre</li>
+        <li>La solution qu'il propose</li>
+        <li>Les conséquences de son utilisation (avantages et inconvénients)</li>
+    </ul>
+    
+    <h2 id="architectures">2.2 Définition des architectures logicielles</h2>
+    
+    <p>L'architecture logicielle représente la structure fondamentale d'un système informatique. Elle définit les composants principaux du système, leurs responsabilités, leurs relations et les principes qui guident leur organisation et leur évolution.</p>
+    
+    <p>Contrairement aux design patterns qui se concentrent sur des problèmes de conception plus localisés, l'architecture logicielle opère à une échelle plus large, définissant l'organisation globale du système.</p>
+    
+    <p>L'architecture logicielle est essentielle car elle détermine les qualités non fonctionnelles du système, telles que :</p>
+    <ul>
+        <li>La performance</li>
+        <li>La sécurité</li>
+        <li>La maintenabilité</li>
+        <li>L'évolutivité</li>
+        <li>La fiabilité</li>
+    </ul>
+    
+    <h2 id="differences">2.3 Différence entre design pattern et architecture</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Aspect</th>
+                <th>Design Pattern</th>
+                <th>Architecture Logicielle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Échelle</td>
+                <td>Localisée, niveau classe/objet</td>
+                <td>Globale, niveau système</td>
+            </tr>
+            <tr>
+                <td>Portée</td>
+                <td>Résout un problème spécifique</td>
+                <td>Organise l'ensemble du système</td>
+            </tr>
+            <tr>
+                <td>Abstraction</td>
+                <td>Plus concret, proche du code</td>
+                <td>Plus abstrait, conceptuel</td>
+            </tr>
+            <tr>
+                <td>Mise en œuvre</td>
+                <td>Relativement simple, peut être isolée</td>
+                <td>Complexe, impact sur tout le système</td>
+            </tr>
+            <tr>
+                <td>Exemple</td>
+                <td>Singleton, Observer, Factory</td>
+                <td>MVC, Microservices, Layered</td>
+            </tr>
+            <tr>
+                <td>Flexibilité de changement</td>
+                <td>Peut être modifié localement</td>
+                <td>Difficile à changer une fois établie</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2 id="interet">2.4 Intérêt dans la conception logicielle moderne</h2>
+    
+    <p>L'adoption des design patterns et des architectures logicielles revêt une importance capitale dans le paysage actuel du développement logiciel pour plusieurs raisons :</p>
+    
+    <ol>
+        <li><strong>Réutilisabilité</strong> : En encapsulant des solutions éprouvées, les patterns permettent aux développeurs de ne pas réinventer la roue pour des problèmes courants.</li>
+        <li><strong>Maintenabilité</strong> : Un code structuré selon des patterns connus est plus facile à comprendre, à déboguer et à modifier.</li>
+        <li><strong>Évolutivité</strong> : Les architectures modernes comme les microservices sont conçues spécifiquement pour permettre aux applications de monter en charge horizontalement.</li>
+        <li><strong>Communication</strong> : Utiliser des noms de patterns ou d'architectures standardisés crée un vocabulaire commun qui facilite les discussions techniques entre développeurs.</li>
+        <li><strong>Standardisation</strong> : L'utilisation de patterns et d'architectures reconnus contribue à la standardisation des solutions, facilitant l'intégration de nouveaux membres dans une équipe.</li>
+    </ol>
+    
+    <div class="page-break"></div>
+    
+    <h1 id="presentation">3. Présentation du projet de gestion de contacts</h1>
+    
+    <h2 id="objectifs">3.1 Objectifs pédagogiques</h2>
+    
+    <p>Ce projet a été conçu avec plusieurs objectifs pédagogiques :</p>
+    
+    <ol>
+        <li>Illustrer concrètement la différence entre une approche non structurée et une approche suivant un pattern architectural</li>
+        <li>Démontrer les avantages pratiques de l'architecture MVC</li>
+        <li>Mettre en évidence l'impact des choix architecturaux sur la maintenabilité et l'évolutivité du code</li>
+        <li>Fournir un exemple concret d'application des principes théoriques des design patterns</li>
+    </ol>
+    
+    <h2 id="fonctionnalites">3.2 Fonctionnalités implémentées</h2>
+    
+    <p>L'application de gestion de contacts implémente les fonctionnalités CRUD (Create, Read, Update, Delete) de base :</p>
+    
+    <ul>
+        <li><strong>Créer</strong> : Ajouter un nouveau contact avec nom, prénom, téléphone, email et adresse</li>
+        <li><strong>Lire</strong> : Afficher la liste de tous les contacts enregistrés</li>
+        <li><strong>Mettre à jour</strong> : Modifier les informations d'un contact existant</li>
+        <li><strong>Supprimer</strong> : Retirer un contact de la base de données</li>
+    </ul>
+    
+    <h2 id="technologies">3.3 Technologies utilisées</h2>
+    
+    <p>Le projet utilise les technologies suivantes :</p>
+    
+    <ul>
+        <li><strong>Python</strong> : Langage de programmation principal</li>
+        <li><strong>Flask</strong> : Framework web léger pour Python</li>
+        <li><strong>SQLite</strong> : Système de gestion de base de données relationnelle léger</li>
+        <li><strong>HTML/CSS</strong> : Pour l'interface utilisateur</li>
+        <li><strong>JavaScript</strong> : Pour la validation côté client</li>
+    </ul>
+    
+    <p>Ces technologies ont été choisies pour leur simplicité et leur accessibilité, permettant de se concentrer sur les aspects architecturaux plutôt que sur les spécificités techniques.</p>
+    
+    <div class="page-break"></div>
+    
+    <h1 id="non-mvc">4. Version non structurée (non-MVC)</h1>
+    
+    <h2 id="approche-monolithique">4.1 Présentation de l'approche monolithique</h2>
+    
+    <p>La version non structurée de l'application adopte une approche monolithique où tous les aspects du programme sont regroupés dans un seul fichier. Cette approche est caractérisée par :</p>
+    
+    <ul>
+        <li>Absence de séparation des responsabilités</li>
+        <li>Mélange de la logique métier, de l'accès aux données et de la présentation</li>
+        <li>Code HTML intégré directement dans des chaînes de caractères Python</li>
+        <li>Connexions à la base de données ouvertes et fermées à chaque opération</li>
+    </ul>
+    
+    <p>Cette approche est souvent adoptée pour des prototypes rapides ou des applications très simples, mais présente rapidement des limites lorsque l'application évolue.</p>
+    
+    <img src="/home/ubuntu/images/app_non_mvc_full.png" alt="Interface de l'application non-MVC">
+    <p class="image-caption">Figure 1 : Interface de l'application non structurée (non-MVC)</p>
+    
+    <h2 id="analyse-non-mvc">4.2 Analyse du code source</h2>
+    
+    <p>Le code de la version non structurée est contenu dans un seul fichier <code>app_non_mvc.py</code>. Voici une analyse de ses principales caractéristiques :</p>
+    
+    <ol>
+        <li><strong>Initialisation de la base de données</strong> : La création de la table est effectuée au début du script, sans isolation dans une fonction dédiée.</li>
+        <li><strong>Template HTML</strong> : L'interface utilisateur est définie comme une chaîne de caractères directement dans le code Python, mélangeant logique et présentation.</li>
+        <li><strong>Routes Flask</strong> : Les routes sont définies sans organisation particulière, chacune gérant à la fois la logique métier et l'accès aux données.</li>
+        <li><strong>Accès aux données</strong> : Les connexions à la base de données sont ouvertes et fermées dans chaque fonction, créant de la redondance.</li>
+        <li><strong>Absence de validation</strong> : Les données saisies par l'utilisateur sont utilisées directement sans validation.</li>
+    </ol>
+    
+    <div class="code-header">app_non_mvc.py (extrait)</div>
+    <pre><code>from flask import Flask, request, render_template_string
+import sqlite3
+
+app = Flask(__name__)
+
+# Initialize database
+conn = sqlite3.connect('database.db')
+conn.execute('''CREATE TABLE IF NOT EXISTS contacts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom TEXT NOT NULL,
+    prenom TEXT NOT NULL,
+    telephone TEXT,
+    email TEXT,
+    adresse TEXT
+)''')
+conn.commit()
+conn.close()
+
+# HTML template as string
+TEMPLATE = '''
+<!DOCTYPE html>
+<html>
+<head><title>Gestion des Contacts</title></head>
+<body>
+    <h1>Gestion des Contacts</h1>
+    <form method="POST" action="/add">
+        Nom: <input type="text" name="nom"><br>
+        Prénom: <input type="text" name="prenom"><br>
+        Téléphone: <input type="text" name="telephone"><br>
+        Email: <input type="text" name="email"><br>
+        Adresse: <input type="text" name="adresse"><br>
+        <input type="submit" value="Ajouter">
+    </form>
+    <!-- ... suite du template ... -->
+'''</code></pre>
+    
+    <h2 id="avantages-inconvenients-non-mvc">4.3 Avantages et inconvénients</h2>
+    
+    <h3>Avantages :</h3>
+    <ul>
+        <li>Simplicité initiale : facile à comprendre pour un débutant</li>
+        <li>Rapidité de mise en œuvre pour des prototypes</li>
+        <li>Pas de complexité liée à la navigation entre plusieurs fichiers</li>
+    </ul>
+    
+    <h3>Inconvénients :</h3>
+    <ul>
+        <li>Difficulté de maintenance lorsque le code grandit</li>
+        <li>Duplication de code (connexions à la base de données, logique similaire)</li>
+        <li>Mélange des responsabilités rendant les tests difficiles</li>
+        <li>Évolutivité limitée</li>
+        <li>Réutilisation du code quasi impossible</li>
+    </ul>
+    
+    <h2 id="problemes">4.4 Problèmes de maintenabilité et d'évolutivité</h2>
+    
+    <p>Cette approche monolithique pose plusieurs problèmes concrets :</p>
+    
+    <ol>
+        <li><strong>Modification difficile</strong> : Toute modification, même mineure, nécessite de naviguer dans un fichier potentiellement très long.</li>
+        <li><strong>Risque d'erreurs</strong> : La modification d'une partie du code peut avoir des effets de bord inattendus sur d'autres parties.</li>
+        <li><strong>Tests complexes</strong> : L'absence de séparation des responsabilités rend les tests unitaires presque impossibles.</li>
+        <li><strong>Collaboration limitée</strong> : Plusieurs développeurs ne peuvent pas travailler efficacement sur différentes parties de l'application simultanément.</li>
+        <li><strong>Évolution contrainte</strong> : L'ajout de nouvelles fonctionnalités devient de plus en plus complexe à mesure que le code s'agrandit.</li>
+    </ol>
+    
+    <div class="note">
+        <p><strong>Note :</strong> Cette approche non structurée est présentée à des fins pédagogiques pour illustrer les problèmes qu'elle engendre. Elle n'est pas recommandée pour des applications professionnelles ou destinées à évoluer.</p>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <h1 id="mvc">5. Version structurée (MVC)</h1>
+    
+    <h2 id="presentation-mvc">5.1 Présentation de l'architecture MVC</h2>
+    
+    <p>L'architecture Model-View-Controller (MVC) est un pattern architectural qui divise une application en trois composants interconnectés, chacun ayant une responsabilité spécifique :</p>
+    
+    <ul>
+        <li><strong>Modèle (Model)</strong> : Gère les données et la logique métier</li>
+        <li><strong>Vue (View)</strong> : S'occupe de la présentation et de l'interface utilisateur</li>
+        <li><strong>Contrôleur (Controller)</strong> : Coordonne le modèle et la vue, gère les entrées utilisateur</li>
+    </ul>
+    
+    <p>Cette séparation des responsabilités permet de développer, tester et maintenir chaque composant indépendamment, tout en facilitant la réutilisation du code.</p>
+    
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/MVC-Process.svg/1200px-MVC-Process.svg.png" alt="Schéma du pattern MVC">
+    <p class="image-caption">Figure 2 : Schéma du pattern MVC montrant les interactions entre les composants</p>
+    
+    <h2 id="structure">5.2 Structure du projet</h2>
+    
+    <p>La version MVC de notre application est organisée selon la structure suivante :</p>
+    
+    <pre><code>project/
+├── main.py                  # Point d'entrée de l'application
+├── config.py                # Configuration centralisée
+├── init_database.py         # Script d'initialisation de la base de données
+├── models/                  # Gestion des données et logique métier
+│   ├── __init__.py
+│   └── contact_model.py
+├── controllers/             # Gestion des routes et coordination
+│   ├── __init__.py
+│   └── contact_controller.py
+└── views/                   # Interface utilisateur
+    ├── __init__.py
+    ├── templates/
+    │   ├── base.html
+    │   ├── index.html
+    │   ├── edit.html
+    │   └── error.html
+    └── static/
+        └── css/
+            └── styles.css</code></pre>
+    
+    <p>Cette organisation reflète clairement la séparation des responsabilités selon le pattern MVC.</p>
+    
+    <h2 id="composants">5.3 Analyse détaillée de chaque composant</h2>
+    
+    <h3 id="modele">5.3.1 Modèle (Model)</h3>
+    
+    <p>Le modèle est responsable de la gestion des données et de la logique métier. Dans notre application, il est implémenté dans le fichier <code>models/contact_model.py</code>.</p>
+    
+    <p>Principales caractéristiques :</p>
+    <ul>
+        <li>Encapsulation de toutes les opérations liées à la base de données</li>
+        <li>Validation des données avant insertion/modification</li>
+        <li>Gestion des erreurs de base de données</li>
+        <li>Abstraction de la couche de persistance</li>
+    </ul>
+    
+    <p>Le modèle expose des méthodes claires pour les opérations CRUD :</p>
+    <ul>
+        <li><code>get_all_contacts()</code></li>
+        <li><code>get_contact_by_id(id)</code></li>
+        <li><code>add_contact(nom, prenom, telephone, email, adresse)</code></li>
+        <li><code>update_contact(id, nom, prenom, telephone, email, adresse)</code></li>
+        <li><code>delete_contact(id)</code></li>
+    </ul>
+    
+    <div class="code-header">models/contact_model.py (extrait)</div>
+    <pre><code>class ContactModel:
+    """
+    Classe modèle pour la gestion des contacts dans la base de données
+    
+    Cette classe suit le pattern DAO (Data Access Object) pour encapsuler
+    toutes les opérations liées à la persistance des données.
+    """
+    
+    @staticmethod
+    def get_db_connection():
+        """
+        Établit et retourne une connexion à la base de données SQLite
+        """
+        conn = sqlite3.connect(active_config.DATABASE)
+        conn.row_factory = sqlite3.Row  # Pour accéder aux colonnes par nom
+        return conn
+    
+    @staticmethod
+    def validate_contact_data(nom, prenom, telephone, email):
+        """
+        Valide les données du contact avant insertion/modification
+        """
+        errors = []
+        
+        # Validation du nom et prénom (obligatoires)
+        if not nom or len(nom.strip()) < active_config.MIN_NAME_LENGTH:
+            errors.append(f"Le nom doit contenir au moins {active_config.MIN_NAME_LENGTH} caractères")
+        
+        # ... autres validations ...
+        
+        return (len(errors) == 0, errors)</code></pre>
+    
+    <h3 id="vue">5.3.2 Vue (View)</h3>
+    
+    <p>La vue est responsable de la présentation des données à l'utilisateur. Dans notre application, elle est implémentée via les templates HTML dans le dossier <code>views/templates/</code> et les styles CSS dans <code>views/static/css/</code>.</p>
+    
+    <p>Principales caractéristiques :</p>
+    <ul>
+        <li>Séparation du HTML et du Python</li>
+        <li>Utilisation de templates Jinja2 pour le rendu dynamique</li>
+        <li>Structure modulaire avec un template de base (<code>base.html</code>)</li>
+        <li>Styles CSS centralisés pour une interface cohérente</li>
+        <li>Validation côté client avec JavaScript</li>
+    </ul>
+    
+    <p>Les templates principaux sont :</p>
+    <ul>
+        <li><code>base.html</code> : Structure commune à toutes les pages</li>
+        <li><code>index.html</code> : Page d'accueil avec liste des contacts et formulaire d'ajout</li>
+        <li><code>edit.html</code> : Formulaire d'édition d'un contact</li>
+        <li><code>error.html</code> : Page d'affichage des erreurs</li>
+    </ul>
+    
+    <div class="code-header">views/templates/base.html</div>
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;{% block title %}Gestion des Contacts{% endblock %}&lt;/title&gt;
+    &lt;link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"&gt;
+    {% block extra_head %}{% endblock %}
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="container"&gt;
+        &lt;header&gt;
+            &lt;h1&gt;{% block header %}Gestion des Contacts{% endblock %}&lt;/h1&gt;
+        &lt;/header&gt;
+        
+        &lt;!-- Messages flash --&gt;
+        &lt;div class="flash-messages"&gt;
+            {% for category, message in get_flashed_messages(with_categories=true) %}
+                &lt;div class="flash-message {{ category }}"&gt;{{ message }}&lt;/div&gt;
+            {% endfor %}
+        &lt;/div&gt;
+        
+        &lt;main&gt;
+            {% block content %}{% endblock %}
+        &lt;/main&gt;
+        
+        &lt;footer&gt;
+            &lt;p&gt;Application de Gestion de Contacts - Exemple d'architecture MVC avec Flask&lt;/p&gt;
+        &lt;/footer&gt;
+    &lt;/div&gt;
+    
+    {% block scripts %}{% endblock %}
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    
+    <h3 id="controleur">5.3.3 Contrôleur (Controller)</h3>
+    
+    <p>Le contrôleur fait le lien entre le modèle et la vue. Il est implémenté dans le fichier <code>controllers/contact_controller.py</code>.</p>
+    
+    <p>Principales caractéristiques :</p>
+    <ul>
+        <li>Définition des routes de l'application</li>
+        <li>Traitement des requêtes utilisateur</li>
+        <li>Coordination entre le modèle et la vue</li>
+        <li>Gestion des erreurs</li>
+        <li>Redirection et messages flash</li>
+    </ul>
+    
+    <p>Les routes principales sont :</p>
+    <ul>
+        <li><code>/</code> : Affichage de la liste des contacts</li>
+        <li><code>/add</code> : Ajout d'un nouveau contact</li>
+        <li><code>/edit/&lt;id&gt;</code> : Modification d'un contact existant</li>
+        <li><code>/delete/&lt;id&gt;</code> : Suppression d'un contact</li>
+    </ul>
+    
+    <div class="code-header">controllers/contact_controller.py (extrait)</div>
+    <pre><code>@contact_bp.route('/')
+def index():
+    """
+    Affiche la page d'accueil avec la liste des contacts et le formulaire d'ajout
+    """
+    try:
+        contacts = ContactModel.get_all_contacts()
+        return render_template('index.html', contacts=contacts)
+    except Exception as e:
+        flash(f"Erreur: {e}", "error")
+        return render_template('index.html', contacts=[])
+
+@contact_bp.route('/add', methods=['POST'])
+def add_contact():
+    """
+    Traite l'ajout d'un nouveau contact
+    """
+    # Récupération des données du formulaire
+    nom = request.form.get('nom', '').strip()
+    prenom = request.form.get('prenom', '').strip()
+    telephone = request.form.get('telephone', '').strip()
+    email = request.form.get('email', '').strip()
+    adresse = request.form.get('adresse', '').strip()
+    
+    # Validation des données
+    is_valid, errors = ContactModel.validate_contact_data(nom, prenom, telephone, email)
+    
+    if not is_valid:
+        for error in errors:
+            flash(error, "error")
+        return redirect(url_for('contact.index'))
+    
+    try:
+        # Ajout du contact via le modèle
+        ContactModel.add_contact(nom, prenom, telephone, email, adresse)
+        flash("Contact ajouté avec succès!", "success")
+    except Exception as e:
+        flash(f"Erreur lors de l'ajout du contact: {e}", "error")
+    
+    return redirect(url_for('contact.index'))</code></pre>
+    
+    <h2 id="avantages-mvc">5.4 Avantages et bénéfices de cette approche</h2>
+    
+    <p>L'architecture MVC offre de nombreux avantages :</p>
+    
+    <ol>
+        <li><strong>Séparation des préoccupations</strong> : Chaque composant a une responsabilité claire et distincte.</li>
+        <li><strong>Maintenabilité améliorée</strong> : Les modifications peuvent être apportées à un composant sans affecter les autres.</li>
+        <li><strong>Testabilité</strong> : Chaque composant peut être testé indépendamment.</li>
+        <li><strong>Réutilisabilité</strong> : Les composants peuvent être réutilisés dans d'autres parties de l'application ou dans d'autres projets.</li>
+        <li><strong>Développement parallèle</strong> : Plusieurs développeurs peuvent travailler simultanément sur différents composants.</li>
+        <li><strong>Évolutivité</strong> : L'ajout de nouvelles fonctionnalités est facilité par la structure claire.</li>
+        <li><strong>Organisation du code</strong> : La structure du projet est intuitive et facile à naviguer.</li>
+    </ol>
+    
+    <div class="tip">
+        <p><strong>Conseil :</strong> L'architecture MVC est particulièrement adaptée aux applications web, car elle correspond naturellement à la séparation entre données, logique et présentation.</p>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <h1 id="comparaison">6. Comparaison des deux approches</h1>
+    
+    <h2 id="tableau">6.1 Tableau comparatif</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Critère</th>
+                <th>Version non-MVC</th>
+                <th>Version MVC</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Structure</strong></td>
+                <td>Monolithique, un seul fichier</td>
+                <td>Modulaire, plusieurs fichiers organisés</td>
+            </tr>
+            <tr>
+                <td><strong>Séparation des responsabilités</strong></td>
+                <td>Inexistante</td>
+                <td>Claire et bien définie</td>
+            </tr>
+            <tr>
+                <td><strong>Maintenabilité</strong></td>
+                <td>Faible</td>
+                <td>Élevée</td>
+            </tr>
+            <tr>
+                <td><strong>Testabilité</strong></td>
+                <td>Difficile</td>
+                <td>Facile</td>
+            </tr>
+            <tr>
+                <td><strong>Évolutivité</strong></td>
+                <td>Limitée</td>
+                <td>Excellente</td>
+            </tr>
+            <tr>
+                <td><strong>Réutilisabilité</strong></td>
+                <td>Quasi nulle</td>
+                <td>Élevée</td>
+            </tr>
+            <tr>
+                <td><strong>Lisibilité</strong></td>
+                <td>Se dégrade rapidement</td>
+                <td>Reste bonne même avec la croissance</td>
+            </tr>
+            <tr>
+                <td><strong>Courbe d'apprentissage</strong></td>
+                <td>Faible</td>
+                <td>Modérée</td>
+            </tr>
+            <tr>
+                <td><strong>Temps de développement initial</strong></td>
+                <td>Court</td>
+                <td>Plus long</td>
+            </tr>
+            <tr>
+                <td><strong>Gestion des erreurs</strong></td>
+                <td>Basique</td>
+                <td>Robuste</td>
+            </tr>
+            <tr>
+                <td><strong>Validation des données</strong></td>
+                <td>Absente ou ad hoc</td>
+                <td>Systématique et centralisée</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2 id="differences-implementation">6.2 Analyse des différences d'implémentation</h2>
+    
+    <h3>Gestion de la base de données</h3>
+    <ul>
+        <li><strong>Non-MVC</strong> : Connexions ouvertes et fermées à chaque opération, code dupliqué</li>
+        <li><strong>MVC</strong> : Connexion centralisée dans le modèle, méthodes réutilisables</li>
+    </ul>
+    
+    <h3>Interface utilisateur</h3>
+    <ul>
+        <li><strong>Non-MVC</strong> : HTML intégré dans des chaînes Python, difficile à maintenir</li>
+        <li><strong>MVC</strong> : Templates HTML séparés, système de templates Jinja2, CSS externe</li>
+    </ul>
+    
+    <h3>Gestion des erreurs</h3>
+    <ul>
+        <li><strong>Non-MVC</strong> : Minimale ou inexistante</li>
+        <li><strong>MVC</strong> : Robuste, avec pages d'erreur dédiées et messages utilisateur</li>
+    </ul>
+    
+    <h3>Validation des données</h3>
+    <ul>
+        <li><strong>Non-MVC</strong> : Absente</li>
+        <li><strong>MVC</strong> : Double validation (côté client et serveur)</li>
+    </ul>
+    
+    <h3>Configuration</h3>
+    <ul>
+        <li><strong>Non-MVC</strong> : Dispersée dans le code</li>
+        <li><strong>MVC</strong> : Centralisée dans un fichier dédié</li>
+    </ul>
+    
+    <h2 id="impact">6.3 Impact sur la maintenabilité et l'évolutivité</h2>
+    
+    <p>L'impact des choix architecturaux sur la maintenabilité et l'évolutivité est considérable :</p>
+    
+    <h3>Scénario : Ajout d'une nouvelle fonctionnalité</h3>
+    <ul>
+        <li><strong>Non-MVC</strong> : Nécessite de modifier le fichier monolithique, risque d'effets de bord</li>
+        <li><strong>MVC</strong> : Peut être implémenté en ajoutant de nouveaux fichiers ou en modifiant des composants spécifiques</li>
+    </ul>
+    
+    <h3>Scénario : Correction d'un bug</h3>
+    <ul>
+        <li><strong>Non-MVC</strong> : Difficile à localiser, risque d'introduire de nouveaux bugs</li>
+        <li><strong>MVC</strong> : Plus facile à isoler dans un composant spécifique</li>
+    </ul>
+    
+    <h3>Scénario : Changement de base de données</h3>
+    <ul>
+        <li><strong>Non-MVC</strong> : Nécessite de modifier chaque requête dans le fichier</li>
+        <li><strong>MVC</strong> : Modifications limitées au modèle, le reste de l'application reste inchangé</li>
+    </ul>
+    
+    <h3>Scénario : Refonte de l'interface utilisateur</h3>
+    <ul>
+        <li><strong>Non-MVC</strong> : Nécessite de modifier les chaînes HTML dans le code Python</li>
+        <li><strong>MVC</strong> : Modifications limitées aux templates et aux fichiers CSS</li>
+    </ul>
+    
+    <div class="warning">
+        <p><strong>Attention :</strong> Bien que l'approche MVC offre de nombreux avantages, elle introduit une complexité initiale qui peut sembler excessive pour des projets très simples. Il est important de choisir l'architecture en fonction des besoins réels du projet et de son évolution prévue.</p>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <h1 id="guide">7. Guide d'installation et d'utilisation</h1>
+    
+    <h2 id="prerequis">7.1 Prérequis</h2>
+    
+    <p>Pour exécuter l'application, vous aurez besoin de :</p>
+    
+    <ul>
+        <li>Python 3.8 ou supérieur</li>
+        <li>Flask (<code>pip install flask</code>)</li>
+        <li>SQLite (inclus avec Python)</li>
+    </ul>
+    
+    <h2 id="installation">7.2 Installation</h2>
+    
+    <ol>
+        <li>Clonez ou téléchargez le projet dans un répertoire local</li>
+        <li>Ouvrez un terminal et naviguez jusqu'au répertoire du projet</li>
+    </ol>
+    
+    <h2 id="execution">7.3 Exécution</h2>
+    
+    <h3>Version non-MVC</h3>
+    
+    <ol>
+        <li>Naviguez dans le répertoire du projet</li>
+        <li>Exécutez la commande :
+            <pre><code>python app_non_mvc.py</code></pre>
+        </li>
+        <li>Ouvrez votre navigateur et accédez à <code>http://localhost:5000</code></li>
+    </ol>
+    
+    <h3>Version MVC</h3>
+    
+    <ol>
+        <li>Naviguez dans le répertoire du projet</li>
+        <li>Initialisez la base de données :
+            <pre><code>python init_database.py</code></pre>
+        </li>
+        <li>Lancez l'application :
+            <pre><code>python main.py</code></pre>
+        </li>
+        <li>Ouvrez votre navigateur et accédez à <code>http://localhost:5000</code></li>
+    </ol>
+    
+    <h2 id="utilisation">7.4 Utilisation des fonctionnalités</h2>
+    
+    <h3>Ajouter un contact</h3>
+    <ol>
+        <li>Remplissez le formulaire en haut de la page avec les informations du contact</li>
+        <li>Cliquez sur le bouton "Ajouter"</li>
+    </ol>
+    
+    <h3>Modifier un contact</h3>
+    <ol>
+        <li>Dans la liste des contacts, cliquez sur le bouton "Modifier" à côté du contact souhaité</li>
+        <li>Modifiez les informations dans le formulaire qui apparaît</li>
+        <li>Cliquez sur "Enregistrer"</li>
+    </ol>
+    
+    <h3>Supprimer un contact</h3>
+    <ol>
+        <li>Dans la liste des contacts, cliquez sur le bouton "Supprimer" à côté du contact souhaité</li>
+        <li>Confirmez la suppression lorsque demandé</li>
+    </ol>
+    
+    <div class="page-break"></div>
+    
+    <h1 id="conclusion">9. Conclusion</h1>
+    
+    <h2 id="synthese">9.1 Synthèse des apprentissages</h2>
+    
+    <p>À travers ce projet, nous avons exploré les concepts fondamentaux des design patterns et des architectures logicielles, en mettant particulièrement l'accent sur le pattern architectural MVC.</p>
+    
+    <p>Nous avons vu comment :</p>
+    <ul>
+        <li>Les design patterns offrent des solutions éprouvées à des problèmes récurrents de conception</li>
+        <li>Les architectures logicielles définissent la structure globale d'une application</li>
+        <li>Le pattern MVC permet une séparation claire des responsabilités</li>
+        <li>Une bonne architecture améliore la maintenabilité et l'évolutivité du code</li>
+    </ul>
+    
+    <p>La comparaison entre l'approche monolithique et l'approche MVC a mis en évidence les avantages concrets d'une architecture bien pensée, même pour une application relativement simple.</p>
+    
+    <h2 id="bonnes-pratiques">9.2 Bonnes pratiques à retenir</h2>
+    
+    <p>Plusieurs bonnes pratiques de développement ont été illustrées dans ce projet :</p>
+    
+    <ol>
+        <li><strong>Séparation des responsabilités</strong> : Chaque composant doit avoir une responsabilité unique et bien définie.</li>
+        <li><strong>Configuration centralisée</strong> : Les paramètres de configuration doivent être regroupés dans un endroit unique.</li>
+        <li><strong>Validation des données</strong> : Les données utilisateur doivent être validées à la fois côté client et côté serveur.</li>
+        <li><strong>Gestion des erreurs</strong> : Les erreurs doivent être capturées et traitées de manière appropriée.</li>
+        <li><strong>Documentation du code</strong> : Le code doit être bien documenté pour faciliter sa compréhension et sa maintenance.</li>
+        <li><strong>Interface utilisateur responsive</strong> : L'interface doit s'adapter à différentes tailles d'écran.</li>
+        <li><strong>Réutilisation du code</strong> : Les fonctionnalités communes doivent être factorisées pour éviter la duplication.</li>
+    </ol>
+    
+    <h2 id="perspectives">9.3 Perspectives d'évolution</h2>
+    
+    <p>Ce projet pourrait être étendu de plusieurs façons :</p>
+    
+    <ol>
+        <li><strong>Ajout d'authentification</strong> : Implémenter un système d'authentification pour sécuriser l'accès à l'application.</li>
+        <li><strong>Recherche et filtrage</strong> : Ajouter des fonctionnalités de recherche et de filtrage des contacts.</li>
+        <li><strong>API REST</strong> : Exposer les fonctionnalités via une API REST pour permettre l'intégration avec d'autres applications.</li>
+        <li><strong>Tests automatisés</strong> : Ajouter des tests unitaires et d'intégration pour garantir la qualité du code.</li>
+        <li><strong>Migration vers une base de données plus robuste</strong> : Remplacer SQLite par PostgreSQL ou MySQL pour les applications à plus grande échelle.</li>
+        <li><strong>Interface utilisateur améliorée</strong> : Utiliser un framework frontend comme React ou Vue.js pour une expérience utilisateur plus riche.</li>
+    </ol>
+    
+    <div class="page-break"></div>
+    
+    <h1 id="annexes">10. Annexes</h1>
+    
+    <h2 id="ressources">10.1 Ressources complémentaires</h2>
+    
+    <p>Pour approfondir vos connaissances sur les design patterns et les architectures logicielles, voici quelques ressources recommandées :</p>
+    
+    <h3>Livres :</h3>
+    <ul>
+        <li>"Design Patterns: Elements of Reusable Object-Oriented Software" par Erich Gamma, Richard Helm, Ralph Johnson et John Vlissides</li>
+        <li>"Clean Architecture: A Craftsman's Guide to Software Structure and Design" par Robert C. Martin</li>
+        <li>"Head First Design Patterns" par Eric Freeman et Elisabeth Robson</li>
+    </ul>
+    
+    <h3>Sites web :</h3>
+    <ul>
+        <li><a href="https://refactoring.guru/design-patterns" target="_blank">Refactoring Guru</a> - Explications détaillées des design patterns</li>
+        <li><a href="https://python-patterns.guide/" target="_blank">Python Design Patterns</a> - Design patterns en Python</li>
+        <li><a href="https://flask.palletsprojects.com/" target="_blank">Flask Documentation</a> - Documentation officielle de Flask</li>
+    </ul>
+    
+    <h2 id="glossaire">10.2 Glossaire</h2>
+    
+    <dl>
+        <dt><strong>CRUD</strong></dt>
+        <dd>Create, Read, Update, Delete - Les quatre opérations de base pour la persistance des données</dd>
+        
+        <dt><strong>DAO</strong></dt>
+        <dd>Data Access Object - Pattern qui sépare la logique d'accès aux données de la logique métier</dd>
+        
+        <dt><strong>DRY</strong></dt>
+        <dd>Don't Repeat Yourself - Principe visant à réduire la répétition de code</dd>
+        
+        <dt><strong>MVC</strong></dt>
+        <dd>Model-View-Controller - Pattern architectural qui sépare une application en trois composants interconnectés</dd>
+        
+        <dt><strong>ORM</strong></dt>
+        <dd>Object-Relational Mapping - Technique de conversion entre systèmes de types incompatibles (objets et bases de données relationnelles)</dd>
+        
+        <dt><strong>REST</strong></dt>
+        <dd>Representational State Transfer - Style d'architecture pour les systèmes distribués</dd>
+        
+        <dt><strong>SoC</strong></dt>
+        <dd>Separation of Concerns - Principe de séparation des différentes préoccupations dans un programme</dd>
+    </dl>
+    
+    <h2 id="references">10.3 Références bibliographiques</h2>
+    
+    <ol>
+        <li>Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1994). Design Patterns: Elements of Reusable Object-Oriented Software. Addison-Wesley.</li>
+        <li>Martin, R. C. (2017). Clean Architecture: A Craftsman's Guide to Software Structure and Design. Prentice Hall.</li>
+        <li>Grinberg, M. (2018). Flask Web Development: Developing Web Applications with Python. O'Reilly Media.</li>
+        <li>Fowler, M. (2002). Patterns of Enterprise Application Architecture. Addison-Wesley.</li>
+        <li>Buschmann, F., Meunier, R., Rohnert, H., Sommerlad, P., & Stal, M. (1996). Pattern-Oriented Software Architecture, Volume 1: A System of Patterns. Wiley.</li>
+    </ol>
+    
+    <footer>
+        <p>© 2025 - Design Patterns et Architectures Logicielles - Tous droits réservés</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environnements virtuels
+venv/
+.venv/
+env/
+
+# Bases de données locales (peuvent contenir des données personnelles)
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# Secrets
+.env
+
+# Éditeurs / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

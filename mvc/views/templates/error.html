@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Erreur{% endblock %}
+
+{% block header %}Une erreur est survenue{% endblock %}
+
+{% block content %}
+    <section class="card">
+        <div class="card-header">
+            <h2 class="card-title">Erreur</h2>
+        </div>
+
+        <div class="text-center">
+            <p>{{ error }}</p>
+            <div class="mt-3">
+                <a class="btn" href="{{ url_for('contact.index') }}">Retour à l'accueil</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

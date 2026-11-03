@@ -1,0 +1,241 @@
+/*
+ * styles.css - Feuille de style partagée par les templates de l'application.
+ */
+
+:root {
+    --primary: #3498db;
+    --primary-dark: #2980b9;
+    --success: #2ecc71;
+    --success-dark: #27ae60;
+    --danger: #e74c3c;
+    --danger-dark: #c0392b;
+    --muted: #7f8c8d;
+    --text: #333;
+    --heading: #2c3e50;
+    --background: #f9f9f9;
+    --radius: 8px;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Base */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--background);
+}
+
+h1, h2, h3 {
+    color: var(--heading);
+    margin-bottom: 1rem;
+}
+
+h1 {
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Messages flash */
+.flash-message {
+    padding: 12px 15px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border-left: 5px solid;
+}
+
+.flash-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left-color: #28a745;
+}
+
+.flash-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left-color: #dc3545;
+}
+
+/* Cartes */
+.card {
+    background-color: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.card-title {
+    margin: 0;
+    color: var(--primary);
+}
+
+/* Formulaires (le style "carte" vient de .card, pas de <form>) */
+form {
+    margin: 0;
+}
+
+.inline-form {
+    display: inline;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+/* Boutons (<button>, <a class="btn"> et input submit) */
+button,
+.btn,
+input[type="submit"] {
+    display: inline-block;
+    background-color: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+button:hover,
+.btn:hover,
+input[type="submit"]:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-edit { background-color: var(--success); }
+.btn-edit:hover { background-color: var(--success-dark); }
+
+.btn-delete { background-color: var(--danger); }
+.btn-delete:hover { background-color: var(--danger-dark); }
+
+.btn-secondary { background-color: var(--muted); }
+.btn-secondary:hover { background-color: #636e72; }
+
+button:focus-visible,
+.btn:focus-visible,
+input[type="submit"]:focus-visible {
+    outline: 3px solid rgba(52, 152, 219, 0.6);
+    outline-offset: 2px;
+}
+
+/* Tableaux */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    background-color: #fff;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+th {
+    background-color: var(--primary);
+    color: #fff;
+    font-weight: 600;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+    background-color: #e9f7fe;
+}
+
+/* Actions (boutons côte à côte) */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Pied de page */
+footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--muted);
+    padding: 10px;
+    border-top: 1px solid #eee;
+}
+
+/* Utilitaires */
+.text-center { text-align: center; }
+.mt-3 { margin-top: 15px; }
+.mb-3 { margin-bottom: 15px; }
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.container {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .container { animation: none; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body { padding: 12px; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestion des Contacts{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{% block header %}Gestion des Contacts{% endblock %}</h1>
+        </header>
+
+        <!-- Messages flash -->
+        <div class="flash-messages" role="status">
+            {% for category, message in get_flashed_messages(with_categories=true) %}
+                <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer>
+            <p>Application de Gestion de Contacts - Exemple d'architecture MVC avec Flask</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/forms.js') }}" defer></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

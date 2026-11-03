@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Formulaire d'ajout de contact -->
+    <section class="card">
+        <div class="card-header">
+            <h2 class="card-title">Ajouter un contact</h2>
+        </div>
+
+        <form method="POST" action="{{ url_for('contact.add_contact') }}" data-validate>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="form-group">
+                <label for="nom">Nom*:</label>
+                <input type="text" id="nom" name="nom" value="{{ form.nom }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="prenom">Prénom*:</label>
+                <input type="text" id="prenom" name="prenom" value="{{ form.prenom }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="telephone">Téléphone:</label>
+                <input type="tel" id="telephone" name="telephone" value="{{ form.telephone }}" placeholder="10 chiffres">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="{{ form.email }}" placeholder="exemple@domaine.com">
+            </div>
+
+            <div class="form-group">
+                <label for="adresse">Adresse:</label>
+                <input type="text" id="adresse" name="adresse" value="{{ form.adresse }}">
+            </div>
+
+            <input type="submit" value="Ajouter">
+        </form>
+    </section>
+
+    <!-- Liste des contacts -->
+    <section class="card">
+        <div class="card-header">
+            <h2 class="card-title">Liste des Contacts</h2>
+        </div>
+
+        {% if contacts %}
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Téléphone</th>
+                            <th>Email</th>
+                            <th>Adresse</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contacts %}
+                        <tr>
+                            <td>{{ contact['id'] }}</td>
+                            <td>{{ contact['nom'] }}</td>
+                            <td>{{ contact['prenom'] }}</td>
+                            <td>{{ contact['telephone'] or '' }}</td>
+                            <td>{{ contact['email'] or '' }}</td>
+                            <td>{{ contact['adresse'] or '' }}</td>
+                            <td>
+                                <div class="actions">
+                                    <a class="btn btn-edit" href="{{ url_for('contact.edit_contact', id=contact['id']) }}">Modifier</a>
+                                    <form class="inline-form" method="POST"
+                                          action="{{ url_for('contact.delete_contact', id=contact['id']) }}"
+                                          data-confirm="Êtes-vous sûr de vouloir supprimer ce contact ?">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-delete">Supprimer</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-center">Aucun contact trouvé. Ajoutez votre premier contact en utilisant le formulaire ci-dessus.</p>
+        {% endif %}
+    </section>
+{% endblock %}
